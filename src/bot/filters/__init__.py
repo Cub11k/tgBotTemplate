@@ -6,10 +6,10 @@ from bot.logger import Logger
 from bot.storages import Storage
 
 
-def add_filters(bot: TeleBot, cfg: Config, storage: Storage, logger: Logger):
+def add_custom_filters(bot: TeleBot, cfg: Config, storage: Storage, logger: Logger):
     bot.add_custom_filter(StateFilter(bot))
 
 
 __all__ = (
-    "add_filters",
+    "add_custom_filters",
 )
