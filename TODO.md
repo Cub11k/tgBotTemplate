@@ -1,5 +1,5 @@
 # TO DO list
 
 - [x] Webhook
-- SQL storages
-- Async version
+- [ ] SQL storages
+- [ ] Async version
