@@ -13,7 +13,7 @@ from bot.logger import Logger
 
 class YourBotName:
     def __init__(self, config_file_path: Optional[str] = None):
-        self.cfg = load_config(path=config_file_path if config_file_path is not None else "./config.ini")
+        self.cfg = load_config(path=config_file_path if config_file_path is not None else "../config.ini")
 
         data_storage = load_storage(
             storage_type=self.cfg.storage.type,

@@ -4,7 +4,6 @@ from redis.connection import parse_url
 
 from telebot.storage import StatePickleStorage, StateRedisStorage
 
-from bot.states.admin import AdminStates
 from bot.states.user import UserStates
 
 

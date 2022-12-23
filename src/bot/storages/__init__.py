@@ -1,7 +1,6 @@
 from enum import Enum
 from typing import Optional, Union
 
-from bot.storages.base_storage import BaseStorage
 from bot.storages.pickle_storage import PickleStorage
 from bot.storages.json_storage import JSONStorage
 from bot.storages.redis_storage import RedisStorage
