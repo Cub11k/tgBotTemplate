@@ -16,7 +16,7 @@ def create_dir(file_path):
 class JSONStorage(BaseStorage):
     def __init__(self, file_path: Optional[str]):
         super().__init__()
-        self.file_path = file_path if file_path is not None else "./.storages/data.json"
+        self.file_path = file_path if file_path is not None else "../.storages/data.json"
         create_dir(self.file_path)
         self.load()
 

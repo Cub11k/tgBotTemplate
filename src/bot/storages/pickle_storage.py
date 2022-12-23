@@ -16,7 +16,7 @@ def create_dir(file_path):
 class PickleStorage(BaseStorage):
     def __init__(self, file_path: Optional[str]):
         super().__init__()
-        self.file_path = file_path if file_path is not None else "./.storages/data.pkl"
+        self.file_path = file_path if file_path is not None else "../.storages/data.pkl"
         create_dir(self.file_path)
         self.load()
 
