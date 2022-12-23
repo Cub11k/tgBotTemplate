@@ -4,5 +4,4 @@
 - [ ] Keyboards
   - [ ] Inline
   - [ ] Reply
-- [ ] SQL storages
 - [ ] Async version
