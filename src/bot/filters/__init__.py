@@ -1,9 +1,10 @@
 from telebot import TeleBot
 from telebot.custom_filters import StateFilter
 
+from storages import Storage
+
 from bot.config import Config
 from bot.logger import Logger
-from storages import Storage
 
 
 def add_custom_filters(bot: TeleBot, cfg: Config, storage: Storage, logger: Logger):

@@ -4,8 +4,9 @@ from telebot import TeleBot
 from telebot.types import Message
 from telebot.apihelper import ApiException
 
-from bot.config import Config
 from storages import Storage
+
+from bot.config import Config
 from bot.logger import Logger
 
 from bot.handlers.base_handlers import BaseHandlers

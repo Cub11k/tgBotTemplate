@@ -1,8 +1,9 @@
 from typing import Optional
 from dataclasses import dataclass
 
-from bot.states import StateStorageType
 from storages import StorageType
+
+from bot.states import StateStorageType
 
 
 @dataclass
