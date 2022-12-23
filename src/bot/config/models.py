@@ -13,14 +13,24 @@ class StateStorage:
 
 
 @dataclass
+class Webhook:
+    url: str
+    certificate: Optional[str]
+    private_key: Optional[str]
+    secret_token: Optional[str]
+
+
+@dataclass
 class TgBot:
     token: str
     admin_id: int
     use_polling: bool
+    skip_pending: bool
     num_threads: int
     use_middlewares: bool
-    log_file_path: Optional[str]
     state_storage: StateStorage
+    log_file_path: Optional[str]
+    webhook: Optional[Webhook]
 
 
 @dataclass
@@ -60,24 +70,7 @@ class Messages:
 
 
 @dataclass
-class UserButtons:
-    pass
-
-
-@dataclass
-class AdminButtons:
-    pass
-
-
-@dataclass
-class Buttons:
-    user: UserButtons
-    admin: AdminButtons
-
-
-@dataclass
 class Config:
     tg_bot: TgBot
     storage: Storage
     messages: Messages
-    buttons: Buttons
