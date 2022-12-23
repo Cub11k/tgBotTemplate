@@ -2,7 +2,7 @@ import os
 import configparser
 
 from bot.states import StateStorageType
-from bot.storages import StorageType
+from storages import StorageType
 
 from bot.config.models import Config
 from bot.config.models import StateStorage, Webhook, TgBot

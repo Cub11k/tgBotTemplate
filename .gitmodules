@@ -1,0 +1,3 @@
+[submodule "storages"]
+	path = storages
+	url = https://github.com/Cub11k/storages

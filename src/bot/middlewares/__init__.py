@@ -2,7 +2,7 @@ from telebot import TeleBot
 
 from bot.config import Config
 from bot.logger import Logger
-from bot.storages import Storage
+from storages import Storage
 
 from bot.middlewares.antiflood import MessageAntiFlood
 from bot.middlewares.antiflood import CallbackAntiFlood

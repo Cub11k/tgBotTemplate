@@ -1,7 +1,7 @@
 from telebot import TeleBot
 
 from bot.config import Config
-from bot.storages import Storage
+from storages import Storage
 from bot.logger import Logger
 
 from bot.handlers.admin import AdminHandlers

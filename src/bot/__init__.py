@@ -5,7 +5,7 @@ from telebot import TeleBot
 
 from bot.config import load_config, Config
 from bot.states import load_state_storage
-from bot.storages import load_storage
+from storages import load_storage
 from bot.filters import add_custom_filters
 from bot.handlers import register_handlers
 from bot.middlewares import setup_middlewares

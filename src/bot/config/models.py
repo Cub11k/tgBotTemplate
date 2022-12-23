@@ -2,7 +2,7 @@ from typing import Optional
 from dataclasses import dataclass
 
 from bot.states import StateStorageType
-from bot.storages import StorageType
+from storages import StorageType
 
 
 @dataclass

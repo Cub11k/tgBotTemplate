@@ -1,6 +1,6 @@
 from telebot.handler_backends import BaseMiddleware, CancelUpdate
 
-from bot.storages import Storage
+from storages import Storage
 
 
 class BanChecker(BaseMiddleware):
