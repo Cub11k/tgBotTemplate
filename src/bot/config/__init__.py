@@ -1,3 +1,4 @@
+import os
 import configparser
 
 from bot.states import StateStorageType
@@ -25,7 +26,7 @@ def load_config(path: str):
 
     return Config(
         tg_bot=TgBot(
-            token=tg_bot.get("token"),
+            token=tg_bot.get("token", vars=os.environ),
             admin_id=tg_bot.getint("admin_id"),
             use_polling=tg_bot.getboolean("use_polling"),
             skip_pending=tg_bot.getboolean("skip_pending"),
@@ -40,8 +41,8 @@ def load_config(path: str):
             webhook=Webhook(
                 url=webhook.get("url"),
                 certificate=webhook.get("certificate", fallback=None),
-                private_key=webhook.get("private_key", fallback=None),
-                secret_token=webhook.get("secret_token", fallback=None)
+                private_key=webhook.get("private_key", fallback=None, vars=os.environ),
+                secret_token=webhook.get("secret_token", fallback=None, vars=os.environ)
             ) if config.has_section("webhook") else None
         ),
         storage=Storage(
