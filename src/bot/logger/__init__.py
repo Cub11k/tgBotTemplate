@@ -14,7 +14,7 @@ class Logger:
         sh.setFormatter(fmt=formatter)
         self.logger.addHandler(hdlr=sh)
 
-        fh = logging.FileHandler(filename=file_path if file_path is not None else "./bot.log", encoding="utf-8")
+        fh = logging.FileHandler(filename=file_path if file_path is not None else "../bot.log", encoding="utf-8")
         fh.setFormatter(fmt=formatter)
         self.logger.addHandler(hdlr=fh)
 
