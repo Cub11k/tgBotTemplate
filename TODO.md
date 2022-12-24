@@ -1,7 +1,7 @@
 # TO DO list
 
 - [x] Webhook
-- [ ] Keyboards
-  - [ ] Inline
-  - [ ] Reply
+- [x] Keyboards
+  - [x] Inline
+  - [x] Reply
 - [ ] Async version
