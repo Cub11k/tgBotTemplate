@@ -72,7 +72,24 @@ class Messages:
 
 
 @dataclass
+class ReplyButtons:
+    pass
+
+
+@dataclass
+class InlineButtons:
+    pass
+
+
+@dataclass
+class Buttons:
+    reply: ReplyButtons
+    inline: InlineButtons
+
+
+@dataclass
 class Config:
     tg_bot: TgBot
     storage: Storage
-    messages: Messages
+    messages_path: Optional[str]
+    keyboards_path: Optional[str]
