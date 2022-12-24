@@ -1,6 +1,8 @@
 # tgBotTemplate
 
-Simple, but extensible template for telegram bot, using pyTelegramBotAPI
+Simple, but extensible template for telegram bot, using storages and pyTelegramBotAPI
+
+[storages](https://github.com/Cub11k/storages)
 
 [pyTelegramBotAPI](https://github.com/eternnoir/pyTelegramBotAPI)
 
