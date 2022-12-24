@@ -49,7 +49,8 @@ def load_config(path: str):
         storage=Storage(
             type=StorageType(storage.get("type")),
             file_path=storage.get("file_path", fallback=None),
-            redis_url=storage.get("redis_url", fallback=None)
+            redis_url=storage.get("redis_url", fallback=None),
+            redis_data_key=storage.get("redis_data_key", fallback=None)
         ),
         messages=Messages(
             help=HelpMessages(

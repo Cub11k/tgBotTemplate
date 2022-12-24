@@ -17,7 +17,8 @@ def init_bot(cfg: Config) -> TeleBot:
     data_storage = load_storage(
         storage_type=cfg.storage.type,
         file_path=cfg.storage.file_path,
-        redis_url=cfg.storage.redis_url
+        redis_url=cfg.storage.redis_url,
+        redis_data_key=cfg.storage.redis_data_key
     )
     bot_logger = Logger()
 

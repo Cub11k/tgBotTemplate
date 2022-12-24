@@ -39,6 +39,7 @@ class Storage:
     type: StorageType
     file_path: Optional[str]
     redis_url: Optional[str]
+    redis_data_key: Optional[str]
 
 
 @dataclass
