@@ -6,7 +6,8 @@ from telebot.apihelper import ApiException
 
 from storages import Storage
 
-from bot.config import Config
+from bot.config import Config, Messages
+from bot.keyboards import Keyboards
 from bot.logger import Logger
 
 from bot.handlers.base_handlers import BaseHandlers
@@ -20,12 +21,15 @@ def get_args(text: str, required_args_num: int, max_args_num: int, args_filter: 
 
 
 class AdminHandlers(BaseHandlers):
-    def __init__(self, bot: TeleBot, cfg: Config, storage: Storage, logger: Logger):
+    def __init__(self, bot: TeleBot, cfg: Config, storage: Storage, logger: Logger,
+                 messages: Messages, keyboards: Keyboards):
         super().__init__()
         self.bot = bot
         self.cfg = cfg
         self.storage = storage
         self.logger = logger
+        self.messages = messages
+        self.keyboards = keyboards
 
     def register(self):
         self.bot.register_message_handler(self.ban, commands=["ban"],
@@ -37,11 +41,11 @@ class AdminHandlers(BaseHandlers):
         try:
             args = get_args(msg.text, 1, 2, lambda lst: lst[0].isdecimal())
         except ValueError:
-            self.bot.send_message(msg.chat.id, self.cfg.messages.help.ban)
+            self.bot.send_message(msg.chat.id, self.messages.help.ban)
             return
         user_id = int(args[0])
         if self._is_admin(user_id):
-            self.bot.send_message(msg.chat.id, self.cfg.messages.admin.cant_ban_admin)
+            self.bot.send_message(msg.chat.id, self.messages.admin.cant_ban_admin)
             return
         try:
             result = self.storage.get_data("banned_users")
@@ -50,22 +54,22 @@ class AdminHandlers(BaseHandlers):
             self.storage.set_data(banned_users=[user_id])
         else:
             if not isinstance(banned_users, list):
-                self.bot.send_message(msg.chat.id, f"{self.cfg.messages.admin.storage_corrupted} - banned_users")
+                self.bot.send_message(msg.chat.id, f"{self.messages.admin.storage_corrupted} - banned_users")
                 self.logger.storage_corrupted("banned_users")
                 return
             else:
                 if user_id in banned_users:
-                    self.bot.send_message(msg.chat.id, self.cfg.messages.admin.already_banned)
+                    self.bot.send_message(msg.chat.id, self.messages.admin.already_banned)
                     return
                 else:
                     banned_users.append(user_id)
                     self.storage.set_data(banned_users=banned_users)
                     self.logger.banned(user_id)
         finally:
-            self.bot.send_message(msg.chat.id, self.cfg.messages.user.success)
-            ban_reason = args[1] if len(args) == 2 else self.cfg.messages.user.ban_default_reason
+            self.bot.send_message(msg.chat.id, self.messages.user.success)
+            ban_reason = args[1] if len(args) == 2 else self.messages.user.ban_default_reason
             try:
-                self.bot.send_message(user_id, f"{self.cfg.messages.user.banned} - {ban_reason}")
+                self.bot.send_message(user_id, f"{self.messages.user.banned} - {ban_reason}")
             except ApiException:
                 self.logger.send_message_failed(user_id)
                 pass
@@ -74,30 +78,30 @@ class AdminHandlers(BaseHandlers):
         try:
             args = get_args(msg.text, 1, 2, lambda lst: lst[0].isdecimal())
         except ValueError:
-            self.bot.send_message(msg.chat.id, self.cfg.messages.help.unban)
+            self.bot.send_message(msg.chat.id, self.messages.help.unban)
             return
         user_id = int(args[0])
         try:
             result = self.storage.get_data("banned_users")
             banned_users = result[0]
         except KeyError:
-            self.bot.send_message(msg.chat.id, self.cfg.messages.admin.not_banned)
+            self.bot.send_message(msg.chat.id, self.messages.admin.not_banned)
         else:
             if not isinstance(banned_users, list):
-                self.bot.send_message(msg.chat.id, f"{self.cfg.messages.admin.storage_corrupted} - banned_users")
+                self.bot.send_message(msg.chat.id, f"{self.messages.admin.storage_corrupted} - banned_users")
                 self.logger.storage_corrupted("banned_users")
                 return
             else:
                 if user_id not in banned_users:
-                    self.bot.send_message(msg.chat.id, self.cfg.messages.admin.not_banned)
+                    self.bot.send_message(msg.chat.id, self.messages.admin.not_banned)
                     return
                 else:
                     banned_users.remove(user_id)
                     self.storage.set_data(banned_users=banned_users)
                     self.logger.unbanned(user_id)
-            self.bot.send_message(msg.chat.id, self.cfg.messages.user.success)
+            self.bot.send_message(msg.chat.id, self.messages.user.success)
             try:
-                self.bot.send_message(user_id, self.cfg.messages.user.unbanned)
+                self.bot.send_message(user_id, self.messages.user.unbanned)
             except ApiException:
                 self.logger.send_message_failed(user_id)
                 pass

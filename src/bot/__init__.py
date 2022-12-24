@@ -5,23 +5,16 @@ from telebot import TeleBot
 
 from storages import load_storage
 
-from bot.config import load_config, Config
+from bot.config import load_messages, load_buttons, load_config, Config
 from bot.states import load_state_storage
 from bot.filters import add_custom_filters
 from bot.handlers import register_handlers
+from bot.keyboards import create_keyboards, Keyboards
 from bot.middlewares import setup_middlewares
 from bot.logger import Logger
 
 
 def init_bot(cfg: Config) -> TeleBot:
-    data_storage = load_storage(
-        storage_type=cfg.storage.type,
-        file_path=cfg.storage.file_path,
-        redis_url=cfg.storage.redis_url,
-        redis_data_key=cfg.storage.redis_data_key
-    )
-    bot_logger = Logger()
-
     state_storage = load_state_storage(
         storage_type=cfg.tg_bot.state_storage.type,
         file_path=cfg.tg_bot.state_storage.file_path,
@@ -34,16 +27,35 @@ def init_bot(cfg: Config) -> TeleBot:
         state_storage=state_storage
     )
 
+    messages = load_messages(cfg.messages_path if cfg.messages_path is not None else "../messages.ini")
+    bot_keyboards = create_keyboards(
+        load_buttons(cfg.keyboards_path if cfg.keyboards_path is not None else "../buttons.ini")
+    )
+    data_storage = load_storage(
+        storage_type=cfg.storage.type,
+        file_path=cfg.storage.file_path,
+        redis_url=cfg.storage.redis_url,
+        redis_data_key=cfg.storage.redis_data_key
+    )
+    bot_logger = Logger()
+
     kwargs = {
         "bot": bot,
         "cfg": cfg,
         "storage": data_storage,
         "logger": bot_logger
     }
-    add_custom_filters(**kwargs)
+    custom_filters_kwargs = kwargs
+    middlewares_kwargs = kwargs
+    handlers_kwargs = {
+        **kwargs,
+        "messages": messages,
+        "keyboards": bot_keyboards
+    }
+    add_custom_filters(**custom_filters_kwargs)
     if cfg.tg_bot.use_middlewares:
-        setup_middlewares(**kwargs)
-    register_handlers(**kwargs)
+        setup_middlewares(**middlewares_kwargs)
+    register_handlers(**handlers_kwargs)
 
     return bot
 
