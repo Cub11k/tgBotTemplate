@@ -6,8 +6,7 @@ from telebot.apihelper import ApiException
 
 from storages.sync_storages import Storage
 
-from logger import Logger
-
+from bot.logger import Logger
 from bot.config import Config, Messages
 from bot.keyboards import Keyboards
 

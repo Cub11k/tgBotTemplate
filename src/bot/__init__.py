@@ -5,8 +5,7 @@ from telebot import TeleBot
 
 from storages.sync_storages import load_storage
 
-from logger import Logger
-
+from bot.logger import Logger
 from bot.config import load_messages, load_buttons, load_config, Config
 from bot.states import load_state_storage
 from bot.filters import add_custom_filters
