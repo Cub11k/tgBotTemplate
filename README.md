@@ -14,3 +14,7 @@ cd tgBotTemplate
 # create and/or activate your virtual environment
 pip install -r requirements.txt
 ```
+
+## Async version
+
+[async tgBotTemplate](https://github.com/Cub11k/async_tgBotTemplate)
