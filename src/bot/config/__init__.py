@@ -53,6 +53,7 @@ def load_config(path: str):
         keyboards_path=config.get("keyboards", "path", fallback=None)
     )
 
+
 def load_messages(path: str):
     messages = configparser.ConfigParser()
     messages.read(path, encoding="utf-8")
