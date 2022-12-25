@@ -3,7 +3,7 @@ from typing import Optional
 
 from telebot import TeleBot
 
-from storages.sync_storages import load_sync_storage
+from storages.sync_storages import load_storage
 
 from bot.config import load_messages, load_buttons, load_config, Config
 from bot.states import load_state_storage
@@ -31,7 +31,7 @@ def init_bot(cfg: Config) -> TeleBot:
     bot_keyboards = create_keyboards(
         load_buttons(cfg.keyboards_path if cfg.keyboards_path is not None else "../buttons.ini")
     )
-    data_storage = load_sync_storage(
+    data_storage = load_storage(
         storage_type=cfg.storage.type,
         file_path=cfg.storage.file_path,
         redis_url=cfg.storage.redis_url,
