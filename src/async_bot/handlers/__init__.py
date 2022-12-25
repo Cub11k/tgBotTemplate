@@ -1,16 +1,16 @@
-from telebot import TeleBot
+from telebot.async_telebot import AsyncTeleBot
 
-from storages.sync_storages import Storage
+from storages.async_storages import Storage
 
 from logger import Logger
 
-from bot.config import Config, Messages
-from bot.keyboards import Keyboards
+from async_bot.config import Config, Messages
+from async_bot.keyboards import Keyboards
 
-from bot.handlers.admin import AdminHandlers
+from async_bot.handlers.admin import AdminHandlers
 
 
-def register_handlers(bot: TeleBot, cfg: Config, storage: Storage, logger: Logger,
+def register_handlers(bot: AsyncTeleBot, cfg: Config, storage: Storage, logger: Logger,
                       messages: Messages, keyboards: Keyboards):
     kwargs = {
         "bot": bot,

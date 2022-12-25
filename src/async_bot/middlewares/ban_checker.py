@@ -1,6 +1,6 @@
-from telebot.handler_backends import BaseMiddleware, CancelUpdate
+from telebot.asyncio_handler_backends import BaseMiddleware, CancelUpdate
 
-from storages.sync_storages import Storage
+from storages.async_storages import Storage
 
 
 class BanChecker(BaseMiddleware):
@@ -12,7 +12,7 @@ class BanChecker(BaseMiddleware):
 
     def pre_process(self, message, data):
         try:
-            result = self.storage.get_data("banned_users")
+            result = await self.storage.get_data("banned_users")
             banned_users = result[0]
         except KeyError:
             # no banned users

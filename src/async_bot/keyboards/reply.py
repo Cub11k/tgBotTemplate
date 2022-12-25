@@ -1,6 +1,6 @@
 from telebot.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 
-from bot.config import ReplyButtons
+from async_bot.config import ReplyButtons
 
 
 class ReplyKeyboards:

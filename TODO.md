@@ -4,4 +4,4 @@
 - [x] Keyboards
   - [x] Inline
   - [x] Reply
-- [ ] Async version
+- [x] Async version

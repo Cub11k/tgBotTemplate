@@ -1,9 +1,9 @@
 from collections import namedtuple
 
-from bot.config import Buttons
+from async_bot.config import Buttons
 
-from bot.keyboards.reply import ReplyKeyboards
-from bot.keyboards.inline import InlineKeyboards
+from async_bot.keyboards.reply import ReplyKeyboards
+from async_bot.keyboards.inline import InlineKeyboards
 
 
 Keyboards = namedtuple("Keyboards", ["reply", "inline"])

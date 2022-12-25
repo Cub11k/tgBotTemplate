@@ -1,30 +1,28 @@
-import time
+import asyncio
 from typing import Optional
 
-from telebot import TeleBot
+from telebot.async_telebot import AsyncTeleBot
 
-from storages.sync_storages import load_storage
+from storages.async_storages import load_storage
 
 from logger import Logger
 
-from bot.config import load_messages, load_buttons, load_config, Config
-from bot.states import load_state_storage
-from bot.filters import add_custom_filters
-from bot.handlers import register_handlers
-from bot.keyboards import create_keyboards, Keyboards
-from bot.middlewares import setup_middlewares
+from async_bot.config import load_messages, load_buttons, load_config, Config
+from async_bot.states import load_state_storage
+from async_bot.filters import add_custom_filters
+from async_bot.handlers import register_handlers
+from async_bot.keyboards import create_keyboards, Keyboards
+from async_bot.middlewares import setup_middlewares
 
 
-def init_bot(cfg: Config) -> TeleBot:
-    state_storage = load_state_storage(
+async def init_bot(cfg: Config) -> AsyncTeleBot:
+    state_storage = await load_state_storage(
         storage_type=cfg.tg_bot.state_storage.type,
         file_path=cfg.tg_bot.state_storage.file_path,
         redis_url=cfg.tg_bot.state_storage.redis_url
     )
-    bot = TeleBot(
+    bot = AsyncTeleBot(
         token=cfg.tg_bot.token,
-        num_threads=cfg.tg_bot.num_threads,
-        use_class_middlewares=cfg.tg_bot.use_middlewares,
         state_storage=state_storage
     )
 
@@ -32,7 +30,7 @@ def init_bot(cfg: Config) -> TeleBot:
     bot_keyboards = create_keyboards(
         load_buttons(cfg.keyboards_path if cfg.keyboards_path is not None else "../buttons.ini")
     )
-    data_storage = load_storage(
+    data_storage = await load_storage(
         storage_type=cfg.storage.type,
         file_path=cfg.storage.file_path,
         redis_url=cfg.storage.redis_url,
@@ -54,17 +52,16 @@ def init_bot(cfg: Config) -> TeleBot:
         "keyboards": bot_keyboards
     }
     add_custom_filters(**custom_filters_kwargs)
-    if cfg.tg_bot.use_middlewares:
-        setup_middlewares(**middlewares_kwargs)
+    setup_middlewares(**middlewares_kwargs)
     register_handlers(**handlers_kwargs)
 
     return bot
 
 
-def set_webhook(bot: TeleBot, cfg: Config):
-    bot.remove_webhook()
-    time.sleep(1)
-    bot.set_webhook(
+async def set_webhook(bot: AsyncTeleBot, cfg: Config):
+    await bot.remove_webhook()
+    await asyncio.sleep(1)
+    await bot.set_webhook(
         url=cfg.tg_bot.webhook.url,
         certificate=cfg.tg_bot.webhook.certificate,
         secret_token=cfg.tg_bot.webhook.secret_token,
@@ -72,13 +69,13 @@ def set_webhook(bot: TeleBot, cfg: Config):
     )
 
 
-def launch(config_file_path: Optional[str] = None):
+async def launch(config_file_path: Optional[str] = None):
     cfg = load_config(path=config_file_path if config_file_path is not None else "../config.ini")
-    bot = init_bot(cfg)
+    bot = await init_bot(cfg)
     if cfg.tg_bot.use_polling:
-        bot.infinity_polling(skip_pending=cfg.tg_bot.skip_pending)
+        await bot.infinity_polling(skip_pending=cfg.tg_bot.skip_pending)
     else:
-        set_webhook(bot, cfg)
+        await set_webhook(bot, cfg)
 
 
 __all__ = (

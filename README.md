@@ -11,6 +11,6 @@ Simple, but extensible template for telegram bot, using storages and pyTelegramB
 ```bash
 git clone https://github.com/Cub11k/tgBotTemplate.git
 cd tgBotTemplate
-# activate your virtual environment
+# create and/or activate your virtual environment
 pip install -r requirements.txt
 ```

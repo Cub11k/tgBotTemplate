@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from config import Webhook, Storage
 
-from bot.states import StateStorageType
+from async_bot.states import StateStorageType
 
 
 @dataclass
@@ -19,8 +19,6 @@ class TgBot:
     admin_id: int
     use_polling: bool
     skip_pending: bool
-    num_threads: int
-    use_middlewares: bool
     state_storage: StateStorage
     log_file_path: Optional[str]
     webhook: Optional[Webhook]

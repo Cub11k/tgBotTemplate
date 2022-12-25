@@ -6,11 +6,11 @@ from storages import StorageType
 from config import Messages, load_messages
 from config import ReplyButtons, InlineButtons, Buttons, load_buttons
 
-from bot.states import StateStorageType
+from async_bot.states import StateStorageType
 
-from bot.config.models import Config
-from bot.config.models import Storage
-from bot.config.models import StateStorage, Webhook, TgBot
+from async_bot.config.models import Config
+from async_bot.config.models import Storage
+from async_bot.config.models import StateStorage, Webhook, TgBot
 
 
 def load_config(path: str):
@@ -29,8 +29,6 @@ def load_config(path: str):
             admin_id=tg_bot.getint("admin_id"),
             use_polling=tg_bot.getboolean("use_polling"),
             skip_pending=tg_bot.getboolean("skip_pending"),
-            num_threads=tg_bot.getint("num_threads"),
-            use_middlewares=tg_bot.getboolean("use_middlewares"),
             state_storage=StateStorage(
                 type=StateStorageType(state_storage.get("type")),
                 file_path=state_storage.get("file_path", fallback=None),

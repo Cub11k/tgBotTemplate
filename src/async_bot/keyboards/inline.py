@@ -1,8 +1,8 @@
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 from telebot.callback_data import CallbackData, CallbackDataFilter
-from telebot.custom_filters import AdvancedCustomFilter
+from telebot.asyncio_filters import AdvancedCustomFilter
 
-from bot.config import InlineButtons
+from async_bot.config import InlineButtons
 
 
 class InlineKeyboards:

@@ -1,9 +1,10 @@
 from telebot import TeleBot
 
-from storages import Storage
+from storages.sync_storages import Storage
+
+from logger import Logger
 
 from bot.config import Config
-from bot.logger import Logger
 
 from bot.middlewares.antiflood import MessageAntiFlood
 from bot.middlewares.antiflood import CallbackAntiFlood
