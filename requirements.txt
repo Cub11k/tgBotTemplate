@@ -1,2 +1,2 @@
 pyTelegramBotAPI>=4.8.0
-git+https://github.com/Cub11k/pyStorages.git
+pyStorages>=0.0.2
