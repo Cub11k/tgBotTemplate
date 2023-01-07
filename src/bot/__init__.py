@@ -10,7 +10,7 @@ from bot.config import load_messages, load_buttons, load_config, Config
 from bot.states import load_state_storage
 from bot.filters import add_custom_filters
 from bot.handlers import register_handlers
-from bot.keyboards import create_keyboards, Keyboards
+from bot.keyboards import create_keyboards
 from bot.middlewares import setup_middlewares
 
 
