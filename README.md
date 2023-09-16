@@ -55,3 +55,5 @@ Beware that `mypackage` is not the package name, but the name of the module,
 the package name is defined in `pyproject.toml`
 
 ## Contribution
+
+Feel free to contribute to the project by creating issues and pull requests
