@@ -1,0 +1,51 @@
+[bot]
+owner_tg_id = 123456789
+token = "token"
+drop_pending = true
+use_webhook = false
+use_class_middlewares = true
+actions_timeout = 0.2
+page_size = 10
+
+logger.name = "BotLogger"
+logger.level = "INFO"
+logger.stream = "stdout"
+logger.file_path = "logs/bot.log"
+logger.format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# allowed_updates = [...] or "ALL"
+
+state_storage.type = "redis"
+state_storage.redis.host = "localhost"
+state_storage.redis.port = 6379
+# state_storage.redis.db = 0
+# state_storage.redis.password = "password"
+# state_storage.redis.prefix = "prefix"
+
+webhook.base_url = "webhook_base_url"
+webhook.path = "webhook_path"
+webhook.secret_token = "secret token"
+# webhook.cert_path = "cert_path"
+# webhook.ip_address = "ip_address"
+# webhook.max_connections = 40
+
+# telegram_api_url = "telegram_api_url"
+
+# [extra sections if any]
+# ...
+
+[logger]
+name = "MyAppLogger"
+level = "INFO"
+stream = "stdout"
+file_path = "logs/myapp.log"
+format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+[messages]
+welcome = "Welcome message"
+help = "Help message"
+anti_flood = "Anti flood message"
+unknown_update = "This feature is not supported yet"
+
+[buttons]
+help = "Help"

@@ -1,0 +1,51 @@
+[bot]
+owner_tg_id = "MYAPP_BOT_OWNER_TG_ID"
+token = "MYAPP_BOT_TOKEN"
+drop_pending = "MYAPP_BOT_DROP_PENDING"
+use_webhook = "MYAPP_BOT_USE_WEBHOOK"
+use_class_middlewares = "MYAPP_BOT_USE_CLASS_MIDDLEWARES"
+actions_timeout = "MYAPP_BOT_ACTIONS_TIMEOUT"
+page_size = "MYAPP_BOT_PAGE_SIZE"
+
+logger.name = "MYAPP_BOT_LOGGER_NAME"
+logger.level = "MYAPP_BOT_LOGGER_LEVEL"
+logger.stream = "MYAPP_BOT_LOGGER_STREAM"
+logger.file_path = "MYAPP_BOT_LOGGER_FILE_PATH"
+logger.format = "MYAPP_BOT_LOGGER_FORMAT"
+
+allowed_updates = "MYAPP_BOT_ALLOWED_UPDATES"
+
+state_storage.type = "MYAPP_BOT_STATE_STORAGE_TYPE"
+state_storage.redis.host = "MYAPP_BOT_STATE_STORAGE_REDIS_HOST"
+state_storage.redis.port = "MYAPP_BOT_STATE_STORAGE_REDIS_PORT"
+state_storage.redis.db = "MYAPP_BOT_STATE_STORAGE_REDIS_DB"
+state_storage.redis.password = "MYAPP_BOT_STATE_STORAGE_REDIS_PASSWORD"
+state_storage.redis.prefix = "MYAPP_BOT_STATE_STORAGE_REDIS_PREFIX"
+
+webhook.base_url = "MYAPP_BOT_WEBHOOK_BASE_URL"
+webhook.path = "MYAPP_BOT_WEBHOOK_PATH"
+webhook.secret_token = "MYAPP_BOT_WEBHOOK_SECRET_TOKEN"
+webhook.cert_path = "MYAPP_BOT_WEBHOOK_CERT_PATH"
+webhook.ip_address = "MYAPP_BOT_WEBHOOK_IP_ADDRESS"
+webhook.max_connections = "MYAPP_BOT_WEBHOOK_MAX_CONNECTIONS"
+
+telegram_api_url = "MYAPP_BOT_TELEGRAM_API_URL"
+
+# [extra sections if any]
+# ...
+
+[logger]
+name = "MYAPP_LOGGER_NAME"
+level = "MYAPP_LOGGER_LEVEL"
+stream = "MYAPP_LOGGER_STREAM"
+file_path = "MYAPP_LOGGER_FILE_PATH"
+format = "MYAPP_LOGGER_FORMAT"
+
+[messages]
+welcome = "MYAPP_MESSAGES_WELCOME"
+help = "MYAPP_MESSAGES_HELP"
+anti_flood = "MYAPP_MESSAGES_ANTI_FLOOD"
+unknown_update = "MYAPP_MESSAGES_UNKNOWN_UPDATE"
+
+[buttons]
+help = "MYAPP_BUTTONS_HELP"
