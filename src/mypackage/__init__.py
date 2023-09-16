@@ -9,9 +9,9 @@ from .webhook import setup_app, Application
 
 def webhook_app() -> Application:
     # this function is just an example of how you can create the app factory
-    config_path = os.environ.get('MYAPP_CONFIG_PATH', 'config.toml')
-    use_env_vars = bool(os.environ.get('MYAPP_USE_ENV_VARS', 'False'))
-    config_env_mapping_path = os.environ.get('MYAPP_CONFIG_ENV_MAPPING_PATH', 'config_env_mapping.toml')
+    config_path = os.environ.get('CONFIG_PATH', 'config.toml')
+    use_env_vars = bool(os.environ.get('CONFIG_USE_ENV_VARS', False))
+    config_env_mapping_path = os.environ.get('CONFIG_ENV_MAPPING_PATH', 'config_env_mapping.toml')
     cfg = load_config(config_path, use_env_vars, config_env_mapping_path)
 
     bot_logger = setup_logger(cfg.bot.logger)
