@@ -10,7 +10,7 @@ from .webhook import setup_app, Application
 def webhook_app() -> Application:
     # this function is just an example of how you can create the app factory
     config_path = os.environ.get('CONFIG_PATH', 'config.toml')
-    use_env_vars = bool(os.environ.get('CONFIG_USE_ENV_VARS', False))
+    use_env_vars = os.environ.get('CONFIG_USE_ENV_VARS', False) in ('1', 'true', 'True', 'TRUE')
     config_env_mapping_path = os.environ.get('CONFIG_ENV_MAPPING_PATH', 'config_env_mapping.toml')
     cfg = load_config(config_path, use_env_vars, config_env_mapping_path)
 
@@ -32,7 +32,10 @@ def main():
     # In this case you should be calling the webhook_app_factory function
     arg_parser = define_arg_parser()
     args = arg_parser.parse_args()
-    cfg = load_config(args.config_path, args.use_env_vars, args.config_env_mapping_path)
+    config_path = os.environ.get('CONFIG_PATH', args.config_path)
+    use_env_vars = os.environ.get('CONFIG_USE_ENV_VARS', args.use_env_vars) in ('1', 'true', 'True', 'TRUE', True)
+    config_env_mapping_path = os.environ.get('CONFIG_ENV_MAPPING_PATH', args.config_env_mapping_path)
+    cfg = load_config(config_path, use_env_vars, config_env_mapping_path)
     bot_logger = setup_logger(cfg.bot.logger)
     bot_ = setup_bot(cfg.bot, cfg.messages, cfg.buttons, bot_logger)
     # use_webhook is intentionally hard-coded to False here as we're using long polling
