@@ -5,7 +5,7 @@ from telebot.types import Message
 
 from ...config.models import MessagesConfig, ButtonsConfig
 
-from mypackage.bot import keyboards
+from .. import keyboards
 
 
 # Basic commands
