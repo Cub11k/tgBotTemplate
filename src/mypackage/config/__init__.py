@@ -13,8 +13,17 @@ from .models import Config
 
 def is_subset_dict(sub: dict, full: dict) -> bool:
     # thus function uses a queue to iterate over the dicts instead of the recursive approach
+    """
+    Check if 'sub' is a subset of 'full' dictionary.
 
     queue = [(sub, full)]
+    Args:
+        sub (dict): The dictionary to check if it is a subset.
+        full (dict): The dictionary to check against.
+
+    Returns:
+        bool: True if 'sub' is a subset of 'full', False otherwise.
+    """
     while queue:
         cur1, cur2 = queue.pop(0)
 
@@ -30,10 +39,15 @@ def is_subset_dict(sub: dict, full: dict) -> bool:
 
 
 def calculate_config_env_mapping(config_data: dict) -> dict:
-    # this function is just an example of how you can calculate the config env mapping
-    # bot.token -> BOT_TOKEN; bot.state_storage.redis.host -> BOT_STATE_STORAGE_REDIS_HOST
-    # it uses a queue to iterate over the config and create the mapping instead of the recursive approach
+    """
+    Calculate the config env mapping.
 
+    Args:
+        config_data (dict): The configuration data.
+
+    Returns:
+        dict: The mapping of config keys to environment variable names.
+    """
     mapping = {}
     queue = [(config_data, mapping, None)]
     while queue:
@@ -52,8 +66,21 @@ def override_config_with_env_vars(config_data: dict, config_env_mapping: dict) -
     # this function might be a bit overcomplicated, but it's a good example of how you can override the config
     # without using the template renderer like jinja2
     # it uses a queue to iterate over the config and the mapping instead of the recursive approach
+    """
+    Override the config data with environment variables based on the config env mapping.
+
+    Args:
+        config_data (dict): The original config data.
+        config_env_mapping (dict): The mapping between config keys and environment variable names.
+        env_vars (dict): A dictionary of environment variables.
 
     queue = [(config_data, config_env_mapping)]
+    Returns:
+        dict: The updated config data with environment variable values.
+
+    Raises:
+        ValueError: If the config and config env mapping keys are not compatible.
+    """
     while queue:
         current1, current2 = queue.pop(0)
         for key in current1.keys():
@@ -67,14 +94,35 @@ def override_config_with_env_vars(config_data: dict, config_env_mapping: dict) -
 
 
 def parse_config_file(config_path: str) -> dict:
-    # this function is just a wrapper around the tomllib.load function
-    # you can use any other config parser, e.g. pyyaml, toml, etc. and add any other parsing logic here
+    """
+    Parse the config file and return a dictionary.
+
+    Args:
+        config_path: The path to the config file.
 
     with open(config_path, 'rb') as f:
         return tomllib.load(f)
+    Returns:
+        A dictionary containing the parsed config.
+
+    Raises:
+        FileNotFoundError: If the config file does not exist or is not accessible.
+        ValueError: If there is an error parsing the config file.
+    """
 
 
 def create_retort(strict_coercion: bool, *args, **kwargs) -> Retort:
+    """
+    Create a Retort instance with the given strict_coercion and additional arguments.
+
+    Parameters:
+        strict_coercion (bool): Whether to use strict coercion.
+        *args: Additional arguments to pass to the Retort instance.
+        **kwargs: Additional keyword arguments to pass to the Retort instance.
+
+    Returns:
+        Retort: The created Retort instance.
+    """
     # TODO: this function should probably be moved to the separate file / module, but for the sake of simplicity
     # of the template I'm keeping it here
 
@@ -83,6 +131,18 @@ def create_retort(strict_coercion: bool, *args, **kwargs) -> Retort:
 
 
 def load_config(config_path: str, use_env_vars: bool, config_env_mapping_path: Optional[str] = None) -> Config:
+    """
+    Load the configuration from a file and optionally override it with environment variables.
+
+    Args:
+        config_path: The path to the configuration file.
+        use_env_vars: A flag indicating whether to override the configuration with environment variables.
+        config_env_mapping_path: The path to the configuration environment mapping file.
+        env_vars: A dictionary of environment variables.
+
+    Returns:
+        The loaded configuration.
+    """
     config_data = parse_config_file(config_path)  # load the initial config from file
     if use_env_vars:
         if config_env_mapping_path is not None:
