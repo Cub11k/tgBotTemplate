@@ -6,7 +6,9 @@ from adaptix import Retort
 
 try:
     import tomllib
+    from tomllib import TOMLDecodeError
 except ImportError:
+    from toml import TomlDecodeError as TOMLDecodeError
     import toml as tomllib
 
 from .models import Config
@@ -103,8 +105,6 @@ def parse_config_file(config_path: str) -> dict:
     Args:
         config_path: The path to the config file.
 
-    with open(config_path, 'rb') as f:
-        return tomllib.load(f)
     Returns:
         A dictionary containing the parsed config.
 
@@ -112,6 +112,36 @@ def parse_config_file(config_path: str) -> dict:
         FileNotFoundError: If the config file does not exist or is not accessible.
         ValueError: If there is an error parsing the config file.
     """
+    if not os.path.isfile(config_path):
+        raise FileNotFoundError(f"File '{config_path}' does not exist or is not accessible.")
+
+    try:
+        with open(config_path, 'rb') as f:
+            return tomllib.load(f)
+    except TOMLDecodeError as e:
+        raise ValueError(f"Error parsing config file: {e}")
+
+
+def parse_config_env_mapping_file(config_env_mapping_path: str) -> dict:
+    """
+    Parse the configuration environment mapping file and return a dictionary.
+
+    Args:
+        config_env_mapping_path: The path to the configuration environment mapping file.
+
+    Returns:
+        A dictionary containing the parsed configuration environment mapping.
+
+    Raises:
+        FileNotFoundError: If the configuration environment mapping file is not found.
+        ValueError: If there is an error parsing the configuration environment mapping file.
+    """
+    try:
+        return parse_config_file(config_env_mapping_path)
+    except FileNotFoundError as e:
+        raise e
+    except ValueError as e:
+        raise ValueError(f"Error parsing config env mapping file: {e}")
 
 
 def create_retort(strict_coercion: bool, *args, **kwargs) -> Retort:
