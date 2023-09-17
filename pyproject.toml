@@ -6,11 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "tgBotTemplate"
 version = "0.0.1"
 authors = [
-  { name="Konstantin Ostashenko", email="zxe20jg1t@mozmail.com" },
+    { name = "Konstantin Ostashenko", email = "zxe20jg1t@mozmail.com" },
 ]
 description = "Telegram Bot Template"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
     "adaptix>=3.0.0a5",
     "pytelegrambotapi>=4.13.0",
