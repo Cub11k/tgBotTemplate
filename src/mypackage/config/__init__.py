@@ -1,3 +1,4 @@
+import collections
 import os
 from typing import Optional
 
@@ -11,12 +12,10 @@ except ImportError:
 from .models import Config
 
 
-def is_subset_dict(sub: dict, full: dict) -> bool:
-    # thus function uses a queue to iterate over the dicts instead of the recursive approach
+def is_dict_subset(sub: dict, full: dict) -> bool:
     """
     Check if 'sub' is a subset of 'full' dictionary.
 
-    queue = [(sub, full)]
     Args:
         sub (dict): The dictionary to check if it is a subset.
         full (dict): The dictionary to check against.
@@ -24,16 +23,19 @@ def is_subset_dict(sub: dict, full: dict) -> bool:
     Returns:
         bool: True if 'sub' is a subset of 'full', False otherwise.
     """
+    queue = collections.deque([(sub, full)])
     while queue:
-        cur1, cur2 = queue.pop(0)
+        cur1, cur2 = queue.popleft()
 
         if not cur1.keys() <= cur2.keys():
             return False
 
-        for key in cur1.keys():
-            if all(isinstance(i[key], dict) for i in (cur1, cur2)):
+        for key in cur1:
+            is_dict_cur1 = isinstance(cur1[key], dict)
+            is_dict_cur2 = isinstance(cur2[key], dict)
+            if is_dict_cur1 and is_dict_cur2:
                 queue.append((cur1[key], cur2[key]))
-            elif any(isinstance(i[key], dict) for i in (cur1, cur2)):
+            elif is_dict_cur1 or is_dict_cur2:
                 return False
     return True
 
