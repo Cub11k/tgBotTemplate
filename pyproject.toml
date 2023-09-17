@@ -14,7 +14,8 @@ requires-python = ">=3.8"
 dependencies = [
     "adaptix>=3.0.0a5",
     "pytelegrambotapi>=4.13.0",
-    "redis>=5.0.0"
+    "redis>=5.0.0",
+    "toml>=0.10.2; python_version < '3.11'"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

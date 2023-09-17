@@ -1,8 +1,12 @@
 import os
-import tomllib
 from typing import Optional
 
 from adaptix import Retort
+
+try:
+    import tomllib
+except ImportError:
+    import toml as tomllib
 
 from .models import Config
 
