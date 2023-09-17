@@ -51,14 +51,14 @@ def calculate_config_env_mapping(config_data: dict) -> dict:
         dict: The mapping of config keys to environment variable names.
     """
     mapping = {}
-    queue = [(config_data, mapping, None)]
+    queue = collections.deque([(config_data, mapping, None)])
     while queue:
-        current_data, current_mapping, prefix = queue.pop(0)
-        for key in current_data.keys():
+        current_data, current_mapping, prefix = queue.popleft()
+        for key, value in current_data.items():
             key_name = f'{prefix}_{key.upper()}' if prefix else key.upper()
-            if isinstance(current_data[key], dict):
+            if isinstance(value, dict):
                 current_mapping[key] = {}
-                queue.append((current_data[key], current_mapping[key], key_name))
+                queue.append((value, current_mapping[key], key_name))
             else:
                 current_mapping[key] = key_name
     return mapping
