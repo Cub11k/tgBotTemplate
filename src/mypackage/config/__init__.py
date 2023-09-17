@@ -163,7 +163,10 @@ def create_retort(strict_coercion: bool, *args, **kwargs) -> Retort:
     return Retort(strict_coercion=strict_coercion, *args, **kwargs)
 
 
-def load_config(config_path: str, use_env_vars: bool, config_env_mapping_path: Optional[str] = None) -> Config:
+def load_config(config_path: str,
+                use_env_vars: bool,
+                config_env_mapping_path: Optional[str] = None,
+                env_vars: Optional[dict[str, str]] = None) -> Config:
     """
     Load the configuration from a file and optionally override it with environment variables.
 
@@ -179,18 +182,14 @@ def load_config(config_path: str, use_env_vars: bool, config_env_mapping_path: O
     config_data = parse_config_file(config_path)  # load the initial config from file
     if use_env_vars:
         if config_env_mapping_path is not None:
-            config_env_mapping = parse_config_file(config_env_mapping_path)  # load the env mapping from file
+            config_env_mapping = parse_config_env_mapping_file(config_env_mapping_path)
         else:
-            # you can define the mapping any other way, for example calculate it based on the keys from the config
-            # e.g. bot.token -> BOT_TOKEN; bot.state_storage.redis.host -> BOT_STATE_STORAGE_REDIS_HOST
             config_env_mapping = calculate_config_env_mapping(config_data)
 
-        # you can also use a template renderer like jinja2 to render the config from a template using env vars
+        if env_vars is None:
+            env_vars = os.environ
 
-        if not is_subset_dict(config_data, config_env_mapping):  # check if the config and the mapping are compatible
-            raise ValueError('Config and config env mapping keys are not equal')
-        config_data = override_config_with_env_vars(config_data, config_env_mapping)
+        config_data = override_config_with_env_vars(config_data, config_env_mapping, env_vars)
 
-    # non-strict coercion allows to use env vars without type casting, as all env vars are strings
     retort = create_retort(strict_coercion=False)
     return retort.load(config_data, Config)  # load the Config model, all data validation will happen there
