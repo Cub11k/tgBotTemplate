@@ -64,10 +64,7 @@ def calculate_config_env_mapping(config_data: dict) -> dict:
     return mapping
 
 
-def override_config_with_env_vars(config_data: dict, config_env_mapping: dict) -> dict:
-    # this function might be a bit overcomplicated, but it's a good example of how you can override the config
-    # without using the template renderer like jinja2
-    # it uses a queue to iterate over the config and the mapping instead of the recursive approach
+def override_config_with_env_vars(config_data: dict, config_env_mapping: dict, env_vars: dict) -> dict:
     """
     Override the config data with environment variables based on the config env mapping.
 
@@ -76,23 +73,27 @@ def override_config_with_env_vars(config_data: dict, config_env_mapping: dict) -
         config_env_mapping (dict): The mapping between config keys and environment variable names.
         env_vars (dict): A dictionary of environment variables.
 
-    queue = [(config_data, config_env_mapping)]
     Returns:
         dict: The updated config data with environment variable values.
 
     Raises:
         ValueError: If the config and config env mapping keys are not compatible.
     """
+    if not is_dict_subset(config_data, config_env_mapping):
+        raise ValueError('Config and config env mapping keys are not compatible')
+
+    config_data_copy = config_data.copy()
+    queue = collections.deque([(config_data_copy, config_env_mapping)])
     while queue:
-        current1, current2 = queue.pop(0)
+        current1, current2 = queue.popleft()
         for key in current1.keys():
             if isinstance(current1[key], dict):
                 queue.append((current1[key], current2[key]))
             else:
                 env_var = current2[key]
-                if env_var:
-                    current1[key] = os.environ.get(env_var, current1[key])
-    return config_data
+                if env_var and env_var in env_vars:
+                    current1[key] = env_vars[env_var]
+    return config_data_copy
 
 
 def parse_config_file(config_path: str) -> dict:
