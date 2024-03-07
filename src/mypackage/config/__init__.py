@@ -1,13 +1,14 @@
 import collections
 import os
+import sys
 from typing import Optional
 
 from adaptix import Retort
 
-try:
+if sys.version_info >= (3, 11):
     import tomllib
     from tomllib import TOMLDecodeError
-except ImportError:
+else:
     from toml import TomlDecodeError as TOMLDecodeError
     import toml as tomllib
 
@@ -116,8 +117,8 @@ def parse_config_file(config_path: str) -> dict:
         raise FileNotFoundError(f"File '{config_path}' does not exist or is not accessible.")
 
     try:
-        with open(config_path, 'rb') as f:
-            return tomllib.load(f)
+        with open(config_path, 'r') as f:
+            return tomllib.loads(f.read())
     except TOMLDecodeError as e:
         raise ValueError(f"Error parsing config file: {e}")
 
