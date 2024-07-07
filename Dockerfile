@@ -3,49 +3,38 @@ FROM python:3.10-slim
 ## prepare environment
 RUN pip install pip-tools
 
-RUN mkdir /app /config /logs
 RUN useradd -ms /bin/sh bot
+RUN mkdir /config /logs
+RUN chown -R bot:bot /config /logs
+
+COPY --chmod=777 docker-entrypoint.sh /
 
 WORKDIR /app
 ##
 
-## use pip-compile to install only requirements
-COPY pyproject.toml /app/
+## install only requirements.txt
+COPY pyproject.toml ./
 
 RUN pip-compile -o requirements.txt pyproject.toml
 RUN pip install -r requirements.txt
 ##
 
-## copy entrypoint
-COPY docker-entrypoint.sh /
-##
-
-## copy sources and install package
-COPY src /app/src/
-COPY config.toml config_env_mapping.toml /app/
+## install package
+COPY src ./src/
+COPY config.toml config_env_mapping.toml ./
 
 RUN pip install .
 ##
 
-## set some defaults
 ENV STATE_STORAGE_TYPE=memory
-##
-
-## set user and workdir
-RUN chown -R bot:bot /app /config /logs
-RUN chmod +x /docker-entrypoint.sh
+ENV MYAPP_LOGGER_FILE_PATH=/logs/myapp.log
+ENV MYAPP_BOT_LOGGER_FILE_PATH=/logs/bot.log
 
 USER bot
-
 WORKDIR /
-##
 
-## define entrypoint and cmd
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["launch-polling", "-e", "-m", "/config/config_env_mapping.toml", "/config/config.toml"]
-##
 
-## define volumes
 VOLUME /config
 VOLUME /logs
-##

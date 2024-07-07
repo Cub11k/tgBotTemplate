@@ -14,8 +14,8 @@ services:
     depends_on: [redis]
     restart: unless-stopped
     volumes:
-      - config:/app/config
-      - logs:/app/logs
+      - config:/config
+      - logs:/logs
     env_file: .env
     environment:
       - MYAPP_BOT_STATE_STORAGE_TYPE=redis
