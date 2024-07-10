@@ -29,4 +29,4 @@ classifiers = [
 "Homepage" = "https://github.com/Cub11k/tgBotTemplate"
 
 [project.scripts]
-launch-polling = "mypackage:main"
+launch-polling = "mybot:main"

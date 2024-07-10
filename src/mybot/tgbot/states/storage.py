@@ -1,6 +1,6 @@
 from telebot.storage import StateMemoryStorage, StateRedisStorage
 
-from ...config.models import BotStateStorageConfig
+from mybot.config.models import BotStateStorageConfig
 
 
 # Pickle storage is intentionally left out

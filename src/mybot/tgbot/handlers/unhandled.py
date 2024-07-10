@@ -3,8 +3,7 @@ from logging import Logger
 from telebot import TeleBot
 from telebot.types import Message, CallbackQuery
 
-from ...config.models import MessagesConfig
-
+from mybot.config.models import MessagesConfig
 from ..utils import dummy_true, all_content_types
 
 

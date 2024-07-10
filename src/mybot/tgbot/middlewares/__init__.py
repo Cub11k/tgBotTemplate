@@ -2,8 +2,7 @@ import logging
 
 from telebot import TeleBot
 
-from ...config.models import MessagesConfig, ButtonsConfig
-
+from mybot.config.models import MessagesConfig, ButtonsConfig
 from .message_antiflood import MessageAntiFloodMiddleware
 from .callback_query_antiflood import CallbackQueryAntiFloodMiddleware
 from .extra_arguments import ExtraArgumentsMiddleware

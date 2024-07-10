@@ -4,8 +4,7 @@ from typing import Optional
 
 from telebot import TeleBot
 
-from ..config.models import BotConfig, BotWebhookConfig, MessagesConfig, ButtonsConfig
-
+from mybot.config.models import BotConfig, BotWebhookConfig, MessagesConfig, ButtonsConfig
 from .filters import add_custom_filters
 from .handlers import register_handlers
 from .middlewares import setup_middlewares
