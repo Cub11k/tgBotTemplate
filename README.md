@@ -15,13 +15,40 @@ cd tgBotTemplate
 ```
 
 - Change package name, description, version, author, homepage, etc. in `pyproject.toml`
-- Create [virtual environment](https://docs.python.org/3/library/venv.html#creating-virtual-environments) or use the
-  existing one
+- Create [virtual environment](https://docs.python.org/3/library/venv.html#creating-virtual-environments) or use the existing one
 - [Activate](https://docs.python.org/3/library/venv.html#how-venvs-work) virtual environment
-- Install the package in editable mode
+- Installation options
+  - Install the package in editable mode
+  - Install the dependencies from a lock-file without installing the package itself
 
 ```bash
+# Option #1 - installing the package in editable mode
 pip install -e .
+
+# Option #2 - installing only the dependencies
+pip install -r requirements.txt
+```
+
+## About requirements.txt
+
+In this template, the `requirements.txt` file is in fact a lock-file, generated using `pip-compile`
+
+It contains a fixed set dependencies with strictly fixed versions (`==`) and is crucial
+for having stable reproducible builds in production. Not to be edited manually 
+as it can lead to conflicts :heavy_exclamation_mark: :heavy_exclamation_mark:
+
+If you want to change this file, e.g. your set of dependencies in `pyproject.toml` has changed,
+or you want to update the versions of existing packages, simply run
+
+```bash
+# this will ensure that requirements.txt satisfies the constraints set in your project
+# it will not change the versions of packages if they already satisfy the constraints set
+pip-compile pyproject.toml -o requirements.txt
+
+# to force the update use --upgrade or --upgrade-package for specific packages (can be used multiple times)
+pip-compile pyproject.toml --upgrade -o requirements.txt
+# or
+pip-compile pyproject.toml --upgrade-package pytelegrambotapi --upgrade-package adaptix==3.0.0b7 -o requirements.txt
 ```
 
 ## Usage
