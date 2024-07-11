@@ -1,4 +1,5 @@
 import sys
+import os
 import logging
 
 from .config.models import LoggerConfig
@@ -14,6 +15,7 @@ def setup_logger(logger_config: LoggerConfig):
         logger.addHandler(stream_handler)
 
     if logger_config.file_path:
+        os.makedirs(os.path.dirname(logger_config.file_path), exist_ok=True)
         file_handler = logging.FileHandler(logger_config.file_path)
         file_handler.setFormatter(logging.Formatter(logger_config.format))
         logger.addHandler(file_handler)
