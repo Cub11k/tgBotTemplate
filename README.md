@@ -92,6 +92,62 @@ pip uninstall <your-package-name>
 Beware that `mypackage` is not the package name, but the name of the module,
 the package name is defined in `pyproject.toml`
 
+## Manual usage with Docker
+
+### Build image
+In project root execute:
+
+```bash
+docker build -t tgbot .
+```
+
+### Run built image
+In any case subsititute `token` with your Telegram Bot API Token
+
+Run in interactive mode (TTY + stdin):
+
+```bash
+docker run -it --rm -e MYAPP_BOT_TOKEN=token tgbot
+```
+
+Run detached (in background) with restart policy:
+
+```bash
+docker run -d --restart unless-stopped -e MYAPP_BOT_TOKEN=token tgbot
+```
+
+Run detached with bind mounts:
+
+```bash
+docker run -d --restart unless-stopped -v ./config:/config -v ./logs:/logs -e MYAPP_BOT_TOKEN=token tgbot
+```
+
+## Usage with Docker Compose
+By default provided `docker-compose.yml` will build project in new image and run it with redis instance as a state storage.
+
+### Configuring your bot
+Provide `.env` file with `MYAPP_BOT_TOKEN` set to your Telegram Bot API Token.
+
+Also in `.env` you can pass any configuration in env vars form according to your `config.toml` and `config_env_mapping.toml`.
+
+### Build & Run
+```bash
+docker compose up -d --build
+```
+
+### Stop
+```bash
+docker compose down
+```
+
+### Volumes
+By default there are 4 volumes created by `docker-compose.yml`:
+
+1. config - directory with `config.toml` and `config_env_mapping.toml` which are used by running instance
+2. logs - directory with logs (by default loggers are write in stdout and in files in this directory)
+3. redis-config - redis configuration
+4. redis-data - redis data storage (for persistence)
+
 ## Contribution
 
 Feel free to contribute to the project by creating issues and pull requests

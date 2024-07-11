@@ -1,0 +1,33 @@
+version: "3.0"
+
+volumes:
+  config: {}
+  logs: {}
+  redis-config: {}
+  redis-data: {}
+
+services:
+  bot:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on: [redis]
+    restart: unless-stopped
+    volumes:
+      - config:/config
+      - logs:/logs
+    env_file: .env
+    environment:
+      - MYAPP_BOT_STATE_STORAGE_TYPE=redis
+      - MYAPP_BOT_STATE_STORAGE_REDIS_HOST=redis
+      - MYAPP_BOT_STATE_STORAGE_REDIS_PORT=6379
+      - MYAPP_BOT_STATE_STORAGE_REDIS_DB=bot
+      - MYAPP_BOT_STATE_STORAGE_REDIS_PASSWORD=bot
+
+  redis:
+    image: redis
+    restart: unless-stopped
+    volumes:
+      - redis-config:/etc/redis
+      - redis-data:/data
+    command: redis-server --save 20 1 --loglevel warning --requirepass bot
