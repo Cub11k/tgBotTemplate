@@ -74,13 +74,13 @@ To get more details about the script, run it with the `--help` flag
 launch-polling --help
 ```
 
-To run the bot using webhook, you'll have to adjust the module `mypackage:webhook`
+To run the bot using webhook, you'll have to adjust the module `mybot:webhook`
 according to the web-framework used
 
 After that, you can launch the app using the web-server of your choice, e.g. `gunicorn`
 
 ```bash
-gunicorn 'mypackage:webhook_app()' --bind=$HOST:$PORT --workers-class=$WORKERS_CLASS
+gunicorn 'mybot:webhook_app()' --bind=$HOST:$PORT --workers-class=$WORKERS_CLASS
 ```
 
 ## Uninstall
@@ -89,7 +89,7 @@ gunicorn 'mypackage:webhook_app()' --bind=$HOST:$PORT --workers-class=$WORKERS_C
 pip uninstall <your-package-name>
 ```
 
-Beware that `mypackage` is not the package name, but the name of the module,
+Beware that `mybot` is not the package name, but the name of the module,
 the package name is defined in `pyproject.toml`
 
 ## Manual usage with Docker

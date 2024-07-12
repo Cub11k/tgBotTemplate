@@ -1,6 +1,6 @@
 import os
 
-from .bot import setup_bot, launch_bot
+from .tgbot import setup_bot, launch_bot
 from .cli import define_arg_parser
 from .config import load_config
 from .logger import setup_logger

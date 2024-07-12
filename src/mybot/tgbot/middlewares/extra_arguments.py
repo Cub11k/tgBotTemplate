@@ -2,7 +2,7 @@ import logging
 
 from telebot.handler_backends import BaseMiddleware
 
-from ...config.models import MessagesConfig, ButtonsConfig
+from mybot.config.models import MessagesConfig, ButtonsConfig
 
 
 class ExtraArgumentsMiddleware(BaseMiddleware):

@@ -3,8 +3,7 @@ from logging import Logger
 from telebot import TeleBot
 from telebot.types import Message
 
-from ...config.models import MessagesConfig, ButtonsConfig
-
+from mybot.config.models import MessagesConfig, ButtonsConfig
 from .. import keyboards
 
 

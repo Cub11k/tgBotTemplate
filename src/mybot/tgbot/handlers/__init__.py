@@ -1,7 +1,6 @@
 from telebot import TeleBot
 
-from ...config.models import ButtonsConfig
-
+from mybot.config.models import ButtonsConfig
 from . import (
     basic_commands,
     unhandled,
