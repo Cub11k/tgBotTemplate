@@ -13,15 +13,24 @@ def webhook_app() -> Application:
     use_env_vars = os.environ.get('CONFIG_USE_ENV_VARS', False) in ('1', 'true', 'True', 'TRUE')
     config_env_mapping_path = os.environ.get('CONFIG_ENV_MAPPING_PATH', 'config_env_mapping.toml')
     cfg = load_config(config_path, use_env_vars, config_env_mapping_path)
+    app_logger = setup_logger(cfg.logger)
+    app_logger.debug(f"Config loaded: {cfg=}")
+    app_logger.debug(f"Setting up the bot logger: {cfg.bot.logger=}")
 
     bot_logger = setup_logger(cfg.bot.logger)
+    app_logger.debug(f"Setting up the bot: {cfg.bot=}, {cfg.messages=}, {cfg.buttons=}")
     bot_ = setup_bot(cfg.bot, cfg.messages, cfg.buttons, bot_logger)
 
+    app_logger.debug(f"Setting up the web-app: {cfg.bot.webhook.path=}")
     app = setup_app(cfg.bot.webhook.path)
     app.ctx.bot = bot_
     app.ctx.secret_token = cfg.bot.webhook.secret_token
-    app.ctx.logger = setup_logger(cfg.logger)
+    app.ctx.logger = app_logger
 
+    app_logger.info("Launching the bot")
+    app_logger.debug(
+        f"Launching the bot with webhook: {cfg.bot.drop_pending=}, {cfg.bot.allowed_updates=}, {cfg.bot.webhook=}"
+    )
     # use_webhook is intentionally hard-coded to True here as we're using webhook
     launch_bot(bot_, cfg.bot.drop_pending, True, cfg.bot.allowed_updates, cfg.bot.webhook)
     return app
@@ -36,7 +45,13 @@ def main():
     use_env_vars = os.environ.get('CONFIG_USE_ENV_VARS', args.use_env_vars) in ('1', 'true', 'True', 'TRUE', True)
     config_env_mapping_path = os.environ.get('CONFIG_ENV_MAPPING_PATH', args.config_env_mapping_path)
     cfg = load_config(config_path, use_env_vars, config_env_mapping_path)
+    app_logger = setup_logger(cfg.logger)
+    app_logger.debug(f"Config loaded: {cfg=}")
+    app_logger.debug(f"Setting up the bot logger: {cfg.bot.logger=}")
     bot_logger = setup_logger(cfg.bot.logger)
+    app_logger.debug(f"Setting up the bot: {cfg.bot=}, {cfg.messages=}, {cfg.buttons=}")
     bot_ = setup_bot(cfg.bot, cfg.messages, cfg.buttons, bot_logger)
+    app_logger.info("Launching the bot")
+    app_logger.debug(f"Launching the bot with polling: {cfg.bot.drop_pending=}, {cfg.bot.allowed_updates=}")
     # use_webhook is intentionally hard-coded to False here as we're using long polling
-    launch_bot(bot_, cfg.bot.drop_pending, False, cfg.bot.allowed_updates, cfg.bot.webhook)
+    launch_bot(bot_, cfg.bot.drop_pending, False, cfg.bot.allowed_updates)

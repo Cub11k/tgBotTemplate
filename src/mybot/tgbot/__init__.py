@@ -56,11 +56,14 @@ def setup_bot(
         messages: MessagesConfig,
         buttons: ButtonsConfig,
         logger: logging.Logger):
+    logger.debug(f"Setting up state storage: {bot_config.state_storage=}")
     state_storage = setup_state_storage(bot_config.state_storage)
     bot = TeleBot(bot_config.token, state_storage=state_storage, use_class_middlewares=bot_config.use_class_middlewares)
 
+    logger.debug("Adding custom filters")
     add_custom_filters(bot, bot_config.owner_tg_id)
     if bot_config.use_class_middlewares:
+        logger.debug("Setting up middlewares")
         setup_middlewares(
             bot=bot,
             timeout_message=messages.anti_flood,
@@ -70,6 +73,7 @@ def setup_bot(
             logger=logger,
             page_size=bot_config.page_size
         )
+    logger.debug("Registering handlers")
     register_handlers(bot, buttons)
 
     return bot
