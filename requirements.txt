@@ -12,7 +12,7 @@ charset-normalizer==3.3.2
     # via requests
 idna==3.7
     # via requests
-pytelegrambotapi==4.21.0
+pytelegrambotapi==4.22.0
     # via tgBotTemplate (pyproject.toml)
 redis==5.0.7
     # via tgBotTemplate (pyproject.toml)
