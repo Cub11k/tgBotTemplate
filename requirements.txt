@@ -10,7 +10,7 @@ certifi==2024.7.4
     # via requests
 charset-normalizer==3.3.2
     # via requests
-idna==3.7
+idna==3.8
     # via requests
 pytelegrambotapi==4.21.0
     # via tgBotTemplate (pyproject.toml)
