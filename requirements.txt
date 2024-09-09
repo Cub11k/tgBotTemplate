@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-adaptix==3.0.0b7
+adaptix==3.0.0b8
     # via tgBotTemplate (pyproject.toml)
 certifi==2024.7.4
     # via requests
